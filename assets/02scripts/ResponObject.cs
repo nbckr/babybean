@@ -12,6 +12,18 @@ public class ResponObject : MonoBehaviour {
     private string sceneObjectName;
     private GameObject objectToRespon;
     private int firsttime = 0;
+    private SteamVR_TrackedObject trackedObj;
+
+    private SteamVR_Controller.Device Controller
+    {
+        get { return SteamVR_Controller.Input((int)trackedObj.index); }
+    }
+
+    void Awake()
+    {
+        trackedObj = GetComponent<SteamVR_TrackedObject>();
+    }
+
 
     void Start()
     {
@@ -19,7 +31,7 @@ public class ResponObject : MonoBehaviour {
     }
 
     void Update () {
-        if (Input.GetKey(key))
+        if (Controller.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad))
         {
             if (firsttime == 0)
             {

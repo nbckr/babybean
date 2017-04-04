@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class ViveControllerInputTest : MonoBehaviour {
 
+    public ushort pulseIntensity;
 	private SteamVR_TrackedObject trackedObj;
 
-    public ushort pulseIntensity;
 
 
     private SteamVR_Controller.Device Controller

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ControllerGrabObject : MonoBehaviour {
+
+    public GameController gameController;
 	
 	private SteamVR_TrackedObject trackedObj;
 	private GameObject collidingObject; 
@@ -41,6 +43,12 @@ public class ControllerGrabObject : MonoBehaviour {
             objectAnim.applyRootMotion = false;
             Debug.Log("anime!!!!! : " + objectAnim.applyRootMotion);
         }
+
+        if (true) //(objectInHand.transform.parent.CompareTag("Baby"))
+        {
+            Debug.Log("Controller grabbed: " + this.name);
+            this.gameController.GrabBaby(1);
+        }
 	}
 
 	private FixedJoint AddFixedJoint()
@@ -63,10 +71,16 @@ public class ControllerGrabObject : MonoBehaviour {
 			objectInHand.GetComponent<Rigidbody>().velocity = Controller.velocity;
 			objectInHand.GetComponent<Rigidbody>().angularVelocity = Controller.angularVelocity;
 		}
-		objectInHand = null;
-	}
 
-	void Update () {
+        if (true) //(objectInHand.transform.parent.CompareTag("Baby"))
+        {
+            gameController.GrabBaby(-1);
+        }
+
+        objectInHand = null;
+    }
+
+    void Update () {
 		if (Controller.GetHairTriggerDown())
 		{
 			if (collidingObject)
@@ -82,6 +96,11 @@ public class ControllerGrabObject : MonoBehaviour {
 				ReleaseObject();
 			}
 		}
+
+        if (Controller.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad))
+        {
+            gameController.Respone();
+        }
 	}
 		
 	public void OnTriggerEnter(Collider other)

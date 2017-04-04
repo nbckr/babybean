@@ -5,33 +5,37 @@ using UnityEngine;
 
 public class BabyController : MonoBehaviour
 {
-
     public GameObject face;
-    public int health = 3;
+    public int health;
 	public float spareTime = 1f;
     public float faceAnimationBuffer = 0.5f;
 
     private Mood mood;
     private float lastFaceAnimation = 0f;
 	private float lastDamageTime = 0f;
+    private GameObject buttonUp;
+    private GameObject buttonMiddle;
+    private GameObject buttonDown;
 
     public enum Mood { happy, content, notamused, frown, shocked, horrified, screaming, screaming_red };
 
     void Start()
     {
+        Debug.Log("new baby script");
+
+
         SetMood(Mood.happy);
+        buttonDown = GameObject.FindGameObjectWithTag("ButtonDown");
+        buttonMiddle = GameObject.FindGameObjectWithTag("ButtonMiddle");
+        buttonUp = GameObject.FindGameObjectWithTag("ButtonUp");
+        health = 3;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            SetMood(Mood.screaming_red);
-        }
-
     }
-
+    
     public void SetMood(Mood mood)
     {
         this.mood = mood;
@@ -45,12 +49,24 @@ public class BabyController : MonoBehaviour
 
     public void SubtractHealth(int damage)
     {
+        Debug.Log("subtract health");
+
 		if (Time.time > lastDamageTime + spareTime) {
 			health -= damage;
 			lastDamageTime = Time.time;
-			if (health <= 0) {
-				Die ();
-			}
+
+            switch (health) {
+                case 2:
+                    buttonDown.GetComponent<Renderer>().material.color = Color.red;
+                    break;
+                case 1:
+                    buttonMiddle.GetComponent<Renderer>().material.color = Color.red;
+                    break;
+                case 0:
+                    buttonUp.GetComponent<Renderer>().material.color = Color.red;
+                    Die();
+                    break;
+            }
 		}
     }
 
