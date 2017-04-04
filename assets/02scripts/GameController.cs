@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
 
-	public float velocityFunny = 0.4;
-	public float velocityTooFast = 0.8;
+	public float velocityFunny = 0.4f;
+	public float velocityTooFast = 0.8f;
 
     private GameObject baby;
     private BabyController babyController;
