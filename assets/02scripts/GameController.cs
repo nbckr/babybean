@@ -12,8 +12,6 @@ public class GameController : MonoBehaviour {
     private GameObject head;
 	private Rigidbody headRB;
 
-
-
     // Use this for initialization
     void Start () {
         baby = GameObject.FindGameObjectWithTag("Baby");
