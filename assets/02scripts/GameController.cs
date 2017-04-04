@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
 
+	public float velocityFunny = 0.4;
+	public float velocityTooFast = 0.8;
+
     private GameObject baby;
     private BabyController babyController;
     private GameObject head;
+	private Rigidbody headRB;
 
 
 
@@ -14,18 +18,36 @@ public class GameController : MonoBehaviour {
     void Start () {
         baby = GameObject.FindGameObjectWithTag("Baby");
         head = GameObject.FindGameObjectWithTag("Head");
+		headRB = head.GetComponent<Rigidbody>();
         babyController = baby.GetComponent<BabyController> ();	
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        //Debug.Log("Hallo " + head.transform.rotation.eulerAngles.x);
 
+		Debug.Log (">> " + headRB.velocity.magnitude);
+
+		// Moving fast?
+		if (headRB.velocity.magnitude > velocityFunny && headRB.velocity.magnitude < velocityTooFast) {
+			babyController.SetMood (BabyController.Mood.happy);
+		}
+
+		// Moving too fast?
+		if (headRB.velocity.magnitude > velocityTooFast) {
+			babyController.SubtractHealth (1);
+			babyController.SetMood (BabyController.Mood.horrified);
+		}
+			
+		// Dropped or thrown away?
+		if (false) {
+		}
+
+		// Wrong angle?
         float angle = head.transform.rotation.eulerAngles.x;
         if (!(angle > 240 && angle < 300))
         {
-            Debug.Log("Hallo " + head.transform.rotation.eulerAngles.x);
-            babyController.SetMood(BabyController.Mood.shocked);
+			babyController.SubtractHealth (1);
+            babyController.SetMood(BabyController.Mood.frown);
         }
 
 	}

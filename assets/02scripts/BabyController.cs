@@ -8,10 +8,12 @@ public class BabyController : MonoBehaviour
 
     public GameObject face;
     public int health = 3;
+	public float spareTime = 1f;
     public float faceAnimationBuffer = 0.5f;
 
     private Mood mood;
-    private float lastFaceAnimation = 0;
+    private float lastFaceAnimation = 0f;
+	private float lastDamageTime = 0f;
 
     public enum Mood { happy, content, notamused, frown, shocked, horrified, screaming, screaming_red };
 
@@ -41,13 +43,15 @@ public class BabyController : MonoBehaviour
         }
     }
 
-    public void Hurt(int damage)
+    public void SubtractHealth(int damage)
     {
-        health -= damage;
-        if (health <= 0)
-        {
-            Die();
-        }
+		if (Time.time > lastDamageTime + spareTime) {
+			health -= damage;
+			lastDamageTime = Time.time;
+			if (health <= 0) {
+				Die ();
+			}
+		}
     }
 
     public void Die()
