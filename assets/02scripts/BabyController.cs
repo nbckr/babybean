@@ -45,6 +45,12 @@ public class BabyController : MonoBehaviour
             face.GetComponent<Renderer>().material.mainTexture = Resources.Load("Images/babybean_" + mood.ToString()) as Texture;
             lastFaceAnimation = Time.time;
         }
+
+        if (mood == Mood.screaming_red)
+        {
+            face.GetComponent<Renderer>().material.mainTexture = Resources.Load("Images/babybean_" + mood.ToString()) as Texture;
+            lastFaceAnimation = Single.PositiveInfinity;
+        }
     }
 
     public void SubtractHealth(int damage)
